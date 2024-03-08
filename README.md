@@ -1,6 +1,7 @@
 # MiauToken: A Decentralized Aid for Cat Refugees
 
-![Alt text]([./images/I](https://github.com/gabrielmellace1/MiauToken/blob/master/images/IMG_0637.jpg))
+![Alt text](https://github.com/gabrielmellace1/MiauToken/blob/master/images/IMG_0637.jpg)
+
 
 
 
