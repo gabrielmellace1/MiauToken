@@ -1,0 +1,36 @@
+{
+  "name": "@exodus.town/contracts",
+  "version": "0.0.0",
+  "description": "",
+  "main": "main.ts",
+  "scripts": {
+    "generate": "wagmi generate",
+    "deploy:mainnet": "hardhat compile && hardhat deploy --network polygon --mana 0xA1c57f48F0Deb89f569dFbE6E2B7f46D33606fD4 --threshold 100",
+    "deploy:testnet": "hardhat compile && hardhat deploy --network mumbai --mana 0x882da5967c435ea5cc6b09150d55e8304b838f45",
+    "deploy:local": "hardhat compile && hardhat deploy --network localhost",
+    "deploy": "npm run deploy:mainnet",
+    "node": "hardhat node",
+    "restart:mainnet": "hardhat compile && hardhat restart --network polygon --address 0x0Ff58e235b154dd7785C4829D48948CE114248C4",
+    "restart:testnet": "hardhat compile && hardhat restart --network mumbai --address 0x39eF9554d9014d31a5DC8aaDb98EA09896Ca62Af",
+    "restart": "npm run restart:mainnet",
+    "bid:mainnet": "hardhat compile && hardhat bid --network polygon --address 0x0Ff58e235b154dd7785C4829D48948CE114248C4 --token 0xA1c57f48F0Deb89f569dFbE6E2B7f46D33606fD4",
+    "bid:testnet": "hardhat compile && hardhat bid --network mumbai --address 0x39eF9554d9014d31a5DC8aaDb98EA09896Ca62Af --token 0x882da5967c435ea5cc6b09150d55e8304b838f45",
+    "bid": "npm run bid:mainnet",
+    "bot:mainnet": "hardhat compile && hardhat bot --network polygon --address 0x0Ff58e235b154dd7785C4829D48948CE114248C4 --token 0xA1c57f48F0Deb89f569dFbE6E2B7f46D33606fD4",
+    "bot:testnet": "hardhat compile && hardhat bot --network mumbai --address 0x39eF9554d9014d31a5DC8aaDb98EA09896Ca62Af --token 0x882da5967c435ea5cc6b09150d55e8304b838f45",
+    "bot": "npm run bot:mainnet"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.17.1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "@wagmi/cli": "^1.3.0",
+    "dotenv": "^16.3.1",
+    "rimraf": "^5.0.1"
+  }
+}

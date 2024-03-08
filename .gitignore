@@ -1,0 +1,6 @@
+.env.example
+hardhat.config.ts
+tasks
+.npmignore
+tsconfig.json
+wagmi.config.ts
