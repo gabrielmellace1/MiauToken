@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/governance/extensions/GovernorCountingSimple.sol
 import "@openzeppelin/contracts/governance/extensions/GovernorVotes.sol";
 import "@openzeppelin/contracts/governance/extensions/GovernorVotesQuorumFraction.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import {MiauToken} from "./MiauToken.sol";
 
@@ -21,7 +22,7 @@ contract MiauDAO is
     GovernorSettings,
     GovernorCountingSimple,
     GovernorVotes,
-    GovernorVotesQuorumFraction
+    GovernorVotesQuorumFraction, ReentrancyGuard
 {
     MiauToken public miau;
     uint256 minSupply;
@@ -29,7 +30,8 @@ contract MiauDAO is
     uint256 public totalEthReceived = 0;
     uint256 public constant RATE = 10e6; // Miau tokens per ETH, assuming 18 decimals for MiauToken
     uint256 public constant MAX_ETH = 10 ether;
-    
+    uint256 public tokensLeftForMining;
+
     constructor(
         MiauToken _miau,
         uint256 _minSupply
@@ -39,17 +41,20 @@ contract MiauDAO is
         GovernorVotes(_miau)
         GovernorVotesQuorumFraction(100)
     {
+
+        tokensLeftForMining = 200e6 * 1e18;
         miau = _miau;
         minSupply = _minSupply;
     }
 
-    function exchangeWETHForMiauTokens(uint256 wethAmount) external {
+    function exchangeWETHForMiauTokens(uint256 wethAmount) external nonReentrant {
         require(totalEthReceived + wethAmount <= MAX_ETH, "Exchange limit exceeded");
         uint256 miauAmount = wethAmount * RATE;
         require(weth.transferFrom(msg.sender, address(this), wethAmount), "WETH transfer failed");
         require(miau.transfer(msg.sender, miauAmount), "MiauToken transfer failed");
 
         totalEthReceived += wethAmount;
+        tokensLeftForMining -= miauAmount;
     }
 
 

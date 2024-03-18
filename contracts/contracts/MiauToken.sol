@@ -17,6 +17,7 @@ contract MiauToken is ERC20, ERC20Votes,Ownable, ReentrancyGuard  {
     uint256 public totalClaimed;
     uint256 private constant MAX_SUPPLY = 1e9 * 1e18; // 1 billion tokens
     uint256 public  feeRate  = 100;
+    uint256 public totalFeesCollected = 0;
 
     event MiauDAOSetAddress(address indexed miauDAO);
     event DAOClaimed(uint256 amount);
@@ -66,7 +67,7 @@ contract MiauToken is ERC20, ERC20Votes,Ownable, ReentrancyGuard  {
     }
 
 
-    function DAOClaim() external {
+    function DAOClaim() external nonReentrant {
         require(msg.sender == miauDAO, "Only MiauDAO can claim");
         uint256 vestedAmount = calculateVestedAmount();
         uint256 claimable = vestedAmount - totalClaimed;
@@ -89,6 +90,7 @@ contract MiauToken is ERC20, ERC20Votes,Ownable, ReentrancyGuard  {
     if (balanceOf(sender) >= totalAmount) {
         super._transfer(sender, miauDAO, fee); // Transfer the fee to miauDAO
         super._transfer(sender, recipient, amount); // Then transfer the original amount to the recipient
+        totalFeesCollected += fee;
     } else {
         super._transfer(sender, recipient, amount); // If not, transfer without applying the fee
     }
